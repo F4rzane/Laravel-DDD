@@ -7,11 +7,11 @@ services:
       POSTGRES_DB: database
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: ./Docker/var/lib/postgresql/data/pgdata
     volumes:
        - ./Docker/var/lib/postgres:/var/lib/postgresql/data/
     ports:
-      - 5433:5432
+      - 5435:5432
     restart: on-failure
 
   php:
@@ -35,10 +35,10 @@ services:
   nginx:
     image: nginx:stable-alpine
     ports:
-      - 8081:80
+      - 8089:80
     volumes:
       - ./htdocs:/var/www/html
-      - .Docker/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./Docker/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
       - postgres
