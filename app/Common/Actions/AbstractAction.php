@@ -7,14 +7,21 @@ use App\Common\DTOs\Responses\MetaDTO;
 use App\Common\DTOs\Responses\ResponseDTO;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Lorisleiva\Actions\Concerns\WithAttributes;
 use Symfony\Component\HttpFoundation\Response;
 
 Abstract class AbstractAction
 {
-    use AsAction;
+    use AsAction,
+        WithAttributes;
+
 
     final public function asController(ActionRequest $request, ...$args): Response
     {
+        $this->fillFromRequest($request);
+
+        $this->validateAttributes();
+
         $result = call_user_func('static::controller', ...$args);
 
         $responseDTO = ResponseDTO::from([

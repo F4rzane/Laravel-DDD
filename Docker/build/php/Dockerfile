@@ -47,6 +47,18 @@ RUN apt-get install -y \
     docker-php-ext-install -j$(nproc) gd && \
     php -i | grep -i gd
 
+# -------------------------
+# Install Postgre PDO
+# -------------------------
+RUN apt-get install -y \
+        libpq-dev \
+        postgresql-client
+
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
+    docker-php-ext-install -j$(nproc) pdo_pgsql && \
+    docker-php-ext-install pdo pgsql
+# ----------[END]----------
+
 ARG uid
 ARG gid
 
