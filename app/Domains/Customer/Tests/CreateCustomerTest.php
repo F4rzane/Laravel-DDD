@@ -18,6 +18,13 @@ class CreateCustomerTest extends TestCase
         $this->post(route('customers.create'), [])
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
+        $wrongNumberCustomer = Customer::factory()->make([
+            'phone' => fake()->numerify('####')
+        ]);
+
+        $this->post(route('customers.create'), $wrongNumberCustomer->toArray())
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
         $customer = Customer::factory()->make();
 
         $customerCreated = $this->post(route('customers.create'), $customer->toArray())

@@ -42,7 +42,7 @@ class CreateCustomerAction extends AbstractAction
             'firstname' => ['required', 'string', 'min:3', 'max:250'],
             'lastname' => ['required', 'string', 'min:3', 'max:250'],
             'birth_date' => ['required', 'date'],
-            'phone' => ['required', 'string', 'max:16'],
+            'phone' => ['required', 'string', 'max:16', 'validate_phone'],
             'bank_account' => ['required', 'string', 'min:3', 'max:250'],
             'email' => ['required', 'email', 'unique:customers'],
         ];

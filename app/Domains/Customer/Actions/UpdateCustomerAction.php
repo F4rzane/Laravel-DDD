@@ -8,6 +8,7 @@ use App\Common\DTOs\Responses\MessageDTO;
 use App\Common\Enums\ResponseTypeEnum;
 use App\Domains\Customer\Contracts\CustomerCommandRepositoryContract;
 use App\Domains\Customer\Contracts\CustomerQueryRepositoryContract;
+use Illuminate\Validation\Rule;
 
 class UpdateCustomerAction extends AbstractAction
 {
@@ -27,7 +28,6 @@ class UpdateCustomerAction extends AbstractAction
     public function controller()
     {
         $customer = $this->queryRepository->firstOrFailed($this->get('customerId'));
-
         $model = $this->commandRepository->update($this->only([
             'firstname',
             'lastname',
@@ -35,13 +35,20 @@ class UpdateCustomerAction extends AbstractAction
             'phone',
             'bank_account',
             'email',
-        ]));
+        ]), $customer->id);
 
         return CustomerDTO::from($model->toArray())->toArray();
     }
 
     public function rules(): array
     {
-        return [];
+        return [
+            'firstname' => ['sometimes', 'required', 'string', 'min:3', 'max:250'],
+            'lastname' => ['sometimes', 'required', 'string', 'min:3', 'max:250'],
+            'birth_date' => ['sometimes', 'required', 'date'],
+            'phone' => ['sometimes', 'required', 'string', 'max:16', 'validate_phone'],
+            'bank_account' => ['sometimes', 'required', 'string', 'min:3', 'max:250'],
+            'email' => ['sometimes', 'required', 'email', Rule::unique('customers')->ignore($this->get('customerId'))]
+        ];
     }
 }
