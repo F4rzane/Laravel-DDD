@@ -2,7 +2,9 @@
 
 namespace App\Domains\Customer\Contracts;
 
-interface CustomerQueryRepositoryContract
+use App\Common\Contracts\AbstractQueryRepositoryInterface;
+
+interface CustomerQueryRepositoryContract extends AbstractQueryRepositoryInterface
 {
 
 }

@@ -11,4 +11,5 @@ class CustomerCommandRepository extends AbstractCommandRepository implements Cus
     public function model(): string
     {
         return Customer::class;
-    }}
+    }
+}

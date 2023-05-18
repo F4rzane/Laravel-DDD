@@ -22,7 +22,7 @@ class CreateCustomerAction extends AbstractAction
             body: 'resource created'
         );
     }
-    public function controller()
+    public function controller(): array
     {
         $model = $this->commandRepository->create($this->only([
             'firstname',
