@@ -27,6 +27,9 @@ class UpdateCustomerAction extends AbstractAction
     }
     public function controller()
     {
+        if (filter_var($this->get('customerId'), FILTER_VALIDATE_INT) === false) {
+            abort(404);
+        }
         $customer = $this->queryRepository->firstOrFailed($this->get('customerId'));
         $model = $this->commandRepository->update($this->only([
             'firstname',

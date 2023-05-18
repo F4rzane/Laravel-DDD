@@ -41,11 +41,17 @@ Abstract class AbstractCommandRepository
         $model->save();
         return $model;
     }
+
     public function update(array $attributes, int $id): mixed
     {
         $model = $this->model->find($id);
         $model->forceFill($attributes);
         $model->save();
         return $model;
+    }
+
+    public function delete(int $id): void
+    {
+        $this->model->find($id)->delete();
     }
 }

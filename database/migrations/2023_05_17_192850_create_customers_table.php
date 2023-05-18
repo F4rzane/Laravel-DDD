@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('bank_account');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->unique(['firstname', 'lastname', 'birth_date']);
