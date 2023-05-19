@@ -24,6 +24,28 @@ class DeleteCustomerAction extends AbstractAction
             body: 'Success'
         );
     }
+
+    /**
+     * @OA\DELETE(
+     * path="/api/v1/customers/{customerId}",
+     * summary="delete customer",
+     * @OA\Parameter(
+     *    description="ID of customer",
+     *    in="path",
+     *    name="customerId",
+     *    required=true,
+     *    example="1",
+     *    @OA\Schema(
+     *       type="integer",
+     *       format="int64"
+     *   )
+     * ),
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Success",
+     * ))
+     */
     public function controller(): void
     {
         if (filter_var($this->get('customerId'), FILTER_VALIDATE_INT) === false) {

@@ -14,6 +14,9 @@ class CustomerDTO extends Data
         public string $phone,
         public string $bank_account,
         public string $email,
+        public ?string $created_at,
+        public ?string $updated_at,
+        public ?string $deleted_at,
     )
     {}
 }

@@ -25,10 +25,21 @@ class CreateCustomerTest extends TestCase
         $this->post(route('customers.create'), $wrongNumberCustomer->toArray())
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
+        $oneCustomer = Customer::factory()->create();
+
+        $customerWithDuplicateData = Customer::factory()->make([
+            'firstname' => $oneCustomer->firstname,
+            'lastname' => $oneCustomer->lastname,
+            'birth_date' => $oneCustomer->birth_date,
+        ]);
+
+        $this->post(route('customers.create'), $customerWithDuplicateData->toArray())
+            ->assertStatus(Response::HTTP_BAD_REQUEST);
+
         $customer = Customer::factory()->make();
 
         $customerCreated = $this->post(route('customers.create'), $customer->toArray())
-            ->assertStatus(Response::HTTP_OK)
+            ->assertStatus(Response::HTTP_CREATED)
             ->assertJsonStructure([
                 'result' => [
                     'firstname',

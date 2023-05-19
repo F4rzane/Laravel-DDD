@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Common\Repositories;
+namespace App\Common\CQRSRepositories;
 
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
 
-Abstract class AbstractCommandRepository
+Abstract class AbstractQueryRepository
 {
     protected Application $app;
     protected Model $model;
@@ -34,24 +35,30 @@ Abstract class AbstractCommandRepository
         return $this->model = $model;
     }
 
-    public function create(array $attributes): mixed
-    {
-        $model = $this->model->newInstance();
-        $model->forceFill($attributes);
-        $model->save();
-        return $model;
-    }
-
-    public function update(array $attributes, int $id): mixed
+    public function firstOrFailed(int $id): mixed
     {
         $model = $this->model->find($id);
-        $model->forceFill($attributes);
-        $model->save();
+
+        if(empty($model)){
+            abort(404);
+        }
+
         return $model;
     }
 
-    public function delete(int $id): void
+    public function firstWhere(array $where, array $columns = ['*']): mixed
     {
-        $this->model->find($id)->delete();
+        $model = $this->model->where($where)->first($columns);
+
+        return $model;
     }
+
+    public function findWhere(array $where, array $columns = ['*']): mixed
+    {
+        $model = $this->model->where($where)->get($columns);
+
+        return $model;
+    }
+
+
 }

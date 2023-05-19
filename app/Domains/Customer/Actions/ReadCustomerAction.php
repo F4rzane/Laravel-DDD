@@ -24,6 +24,34 @@ class ReadCustomerAction extends AbstractAction
             body: 'Success'
         );
     }
+    /**
+     * @OA\Get(
+     * path="/api/v1/customers/{customerId}",
+     * summary="read a customer",
+     * @OA\Parameter(
+     *  description="ID of customer",
+     *  in="path",
+     *  name="customerId",
+     *  required=true,
+     *  example="1",
+     *  @OA\Schema(
+     *      type="integer",
+     *      format="int64"
+     *    )
+     *),
+     * @OA\Response(
+     *     response=200,
+     *     description="Success",
+     *      @OA\JsonContent(
+     *          @OA\Property(property="id", type="integer", example="1"),
+     *          @OA\Property(property="firstname", type="string", example="John"),
+     *          @OA\Property(property="lastname", type="string", example="Due"),
+     *          @OA\Property(property="email", type="string", example="mail@gmail.com"),
+     *          @OA\Property(property="birth_date", type="string", example="2015-01-01"),
+     *          @OA\Property(property="phone", type="string", example="+989121111111"),
+     *          @OA\Property(property="bank_account", type="string", example="222-333212")
+     *  )))
+     */
     public function controller(): array
     {
         if (filter_var($this->get('customerId'), FILTER_VALIDATE_INT) === false) {

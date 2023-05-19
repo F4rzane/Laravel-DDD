@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Common\DTOs\Responses\MessageDTO;
+use App\Common\DTOs\Responses\MetaDTO;
+use App\Common\DTOs\Responses\ResponseDTO;
+use App\Common\Enums\ResponseTypeEnum;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -12,11 +17,6 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
 
     /**
      * Register the exception handling callbacks for the application.
@@ -26,5 +26,31 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        $response = parent::render($request, $e);
+        $errors = [];
+        $message = $e->getMessage();
+
+        if (is_a($e, ValidationException::class)) {
+            $message = 'validation';
+            $errors = $e->validator->getMessageBag()->toArray();
+        }
+
+        return ResponseDTO::from([
+            'ok' => false,
+            'meta' => MetaDTO::from([
+                'message' => MessageDTO::from([
+                    'body' => $message,
+                    'type' => ResponseTypeEnum::ERROR->value,
+                ]),
+            ]),
+            'errors' => $errors,
+        ])
+            ->toResponse($request)
+            ->setStatusCode($response->getStatusCode())
+            ->withHeaders($response->headers->all());
     }
 }

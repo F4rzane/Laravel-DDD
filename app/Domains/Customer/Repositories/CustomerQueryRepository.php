@@ -2,7 +2,7 @@
 
 namespace App\Domains\Customer\Repositories;
 
-use App\Common\Repositories\AbstractQueryRepository;
+use App\Common\CQRSRepositories\AbstractQueryRepository;
 use App\Domains\Customer\Contracts\CustomerQueryRepositoryContract;
 use App\Models\Customer;
 

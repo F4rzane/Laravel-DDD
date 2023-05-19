@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Common\Contracts;
+namespace App\Common\CQRSContracts;
 
 interface AbstractCommandRepositoryInterface
 {

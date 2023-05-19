@@ -15,14 +15,16 @@ class UpdateCustomerTest extends TestCase
 
     public function test_update_customer()
     {
-        $this->post(route('customers.create'), [])
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-
         $customer = Customer::factory()->create();
+
+        $this->put(route('customers.update', ['customerId' => $customer->id]), [
+            'email' => 'SOMEWRONGDATA'
+        ])
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $customerData = Customer::factory()->make();
 
-        $this->post(route('customers.update',
+        $this->put(route('customers.update',
             ['customerId' => $customer->id]), $customerData->toArray())
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
