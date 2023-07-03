@@ -1,0 +1,325 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Customer CRUD",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8089",
+            "description": "Localhost"
+        }
+    ],
+    "paths": {
+        "/api/v1/customers": {
+            "post": {
+                "summary": "creat a new customer",
+                "operationId": "e550f20d5338db3f27e395a4e34051a1",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "firstname",
+                                    "lastname",
+                                    "birth_date",
+                                    "phone",
+                                    "bank_account",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Due"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "2022-01-01"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+989121111111"
+                                    },
+                                    "bank_account": {
+                                        "type": "string",
+                                        "example": "222-333212"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, wrong email address. Please try again"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/customers/{customerId}": {
+            "get": {
+                "summary": "read a customer",
+                "operationId": "54dd3e75e38dd606de76a3fec81f6e18",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "firstname": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "lastname": {
+                                            "type": "string",
+                                            "example": "Due"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "mail@gmail.com"
+                                        },
+                                        "birth_date": {
+                                            "type": "string",
+                                            "example": "2015-01-01"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "+989121111111"
+                                        },
+                                        "bank_account": {
+                                            "type": "string",
+                                            "example": "222-333212"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "update a new customer",
+                "operationId": "be73207bd7027a74d53d22dad49ec611",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Due"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "2022-01-01"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+989121111111"
+                                    },
+                                    "bank_account": {
+                                        "type": "string",
+                                        "example": "222-333212"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, wrong email address. Please try again"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "delete customer",
+                "operationId": "b3eba756aaee6599c4ecbaffcba9a944",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "201": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "firstname": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "lastname": {
+                                    "type": "string",
+                                    "example": "Due"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "mail@gmail.com"
+                                },
+                                "birth_date": {
+                                    "type": "string",
+                                    "example": "2015-01-01"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+989121111111"
+                                },
+                                "bank_account": {
+                                    "type": "string",
+                                    "example": "222-333212"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "firstname": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "lastname": {
+                                    "type": "string",
+                                    "example": "Due"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "mail@gmail.com"
+                                },
+                                "birth_date": {
+                                    "type": "string",
+                                    "example": "2015-01-01"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": "+989121111111"
+                                },
+                                "bank_account": {
+                                    "type": "string",
+                                    "example": "222-333212"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
